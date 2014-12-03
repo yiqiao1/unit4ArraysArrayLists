@@ -19,6 +19,14 @@ public class ArrayOperations
             System.out.println("x[" + i + "]: " + x[i]);
         }
         
-        for (int i = 8; 
+        for (int i = x.length - 1; i >= 0; i--)
+        {
+            System.out.println("x[" + i + "]: " + x[i]);
+        }
+        
+        for (double value : x)
+        {
+            System.out.println(value);
+        }
     }
 }
