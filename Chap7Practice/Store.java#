@@ -1,0 +1,25 @@
+
+public class Store
+{
+    ArrayList<Customer> customers = new ArrayList<Customer>();
+    
+    private String name;
+    private double price;
+
+    public Store(String customerName, double amount)
+    {
+        this.name = customerName;
+        this.price = amount;
+    }
+
+    public void addSale(String customerName, double amount)
+    {
+        // put your code here
+        return x+y;
+    }
+
+    public String nameOfBestCustomer()
+    {
+        
+    }
+}
