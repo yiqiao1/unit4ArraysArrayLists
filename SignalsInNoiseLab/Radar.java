@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 /**
  * The model for radar scan and accumulator
@@ -45,8 +46,8 @@ public class Radar
         
         // randomly set the location of the monster (can be explicity set through the
         //  setMonsterLocation method
-        monsterLocationRow = (int)(Math.random() * rows);
-        monsterLocationCol = (int)(Math.random() * cols);
+        currentLocationRow = (int)(Math.random() * rows);
+        currentLocationCol = (int)(Math.random() * cols);
         
         noiseFraction = 0.05;
         numScans= 0;
@@ -56,8 +57,9 @@ public class Radar
      * Performs a scan of the radar. Noise is injected into the grid and the accumulator is updated.
      * 
      */
-    public void scan()
+    public boolean scan()
     {
+        // copies previousScan into new array currentScan
         for (int row = 0; row < currentScan.length; row++)
         {
             for (int col = 0; col < currentScan[0].length; col++)
@@ -74,25 +76,43 @@ public class Radar
                 currentScan[row][col] = false;
             }
         }
-        
-        
+                
         // moves monster according to dy and dx
-        moveMonster();
+        if (currentLocationRow < (currentScan.length - monsterDX) && currentLocationCol < (currentScan[0].length - monsterDY))
+        {
+            moveMonster();
+        }
+        else
+        {
+            return false;
+        }
         
         // inject noise into the grid
         injectNoise();
         
+        // for every location in the previousScan grid...
         for (int row1 = 0; row1 < previousScan.length; row1++)
         {
             for (int col1 = 0; col1 < previousScan[0].length; col1++)
             {
-                if (previousScan[row1][col1] = true)
+                // if there is a possible monster at that location...
+                if (previousScan[row1][col1] == true)
                 {
-                    for(int row = 0; row < currentScan.length; row++)
+                    // then for every location in the currentScan grid...
+                    for(int row2 = 0; row2 < currentScan.length; row2++)
                     {
-                        for(int col = 0; col < currentScan[0].length; col++)
+                        for(int col2 = 0; col2 < currentScan[0].length; col2++)
                         {
-                            if (currentScan[row][col].
+                            // if the distance between the locations on the two different grids is less than or equal to 5...
+                            if (Math.abs(row1 - row2) <= 5 && Math.abs(col1 - col2) <= 5)
+                            {
+                                // and if there is also a possible monster at that location on the currentScan grid...
+                                if (currentScan[row2][col2] == true)
+                                {
+                                    // then add one to that velocity in th accumulator grid!
+                                    accumulator[row2 - row1 + 5][col2 - col1 + 5] += 1;
+                                }
+                            }
                         }
                     }
                 }
@@ -101,6 +121,8 @@ public class Radar
         
         // keep track of the total number of scans
         numScans++;
+        
+        return true;
     }
 
     /**
@@ -113,8 +135,8 @@ public class Radar
     public void setMonsterLocation(int row, int col)
     {
         // remember the row and col of the monster's location
-        monsterLocationRow = row;
-        monsterLocationCol = col;
+        currentLocationRow = row;
+        currentLocationCol = col;
         
         // update the radar grid to show that something was detected at the specified location
         currentScan[row][col] = true;
@@ -229,5 +251,71 @@ public class Radar
         currentLocationCol += monsterDY;
         
         currentScan[currentLocationRow][currentLocationCol] = true;
+    }    
+    
+    /**
+     * Returns velocity of monster
+     * 
+     * @return  dx and dy velocity of monster
+     */
+    public String returnVelocity()
+    {
+        int largestTally = 0;
+        int dy = 0;
+        int dx = 0;
+        
+        for (int row = 0; row < accumulator.length; row++)
+        {
+            for (int col = 0; col < accumulator[0].length; col++)
+            {
+                if (accumulator[row][col] > largestTally)
+                {
+                    largestTally = accumulator[row][col];
+                    dy = row - 5;
+                    dx = col - 5;
+                }
+            }
+        }
+        
+        String statement = "The dy of the monster is " + dy + " and the dx of the monster is " + dx + ".";
+        return statement;
+    }
+    
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+        
+        int numRows;
+        int numCols;
+        int monRow;
+        int monCol;
+        int monDX;
+        int monDY;
+        
+        System.out.print("Please enter the number of rows in the grid: ");
+        numRows = in.nextInt();
+        System.out.print("Please enter the number of columns in the grid: ");
+        numCols = in.nextInt();
+        
+        System.out.print("Please enter the row the monster is in: ");
+        monRow = in.nextInt();
+        System.out.print("Please enter the column the monster is in: ");
+        monCol = in.nextInt();
+        
+        System.out.print("Please enter the monster's velocity in the X direction: ");
+        monDX = in.nextInt();
+        System.out.print("Please enter the monster's velocity in the Y direction: ");
+        monDY = in.nextInt();
+        
+        Radar radar = new Radar(numRows, numCols);
+        radar.setMonsterLocation(monRow, monCol);
+        radar.setMonsterVelocity(monDX, monDY);
+        
+        while (radar.scan() == true)
+        {
+            radar.scan();
+        }
+        
+        System.out.println(radar.returnVelocity());
     }
 }
