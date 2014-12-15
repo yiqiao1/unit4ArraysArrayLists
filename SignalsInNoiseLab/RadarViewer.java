@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import java.util.Scanner;
 
 /**
  * Class that contains the main method for the program and creates the frame containing the component.
@@ -15,12 +16,37 @@ public class RadarViewer
     public static void main(String[] args) throws InterruptedException
     {
         // create the radar, set the monster location, and perform the initial scan
-        final int ROWS = 100;
-        final int COLS = 100;
-        Radar radar = new Radar(ROWS, COLS);
-        radar.setNoiseFraction(0.10);
-        radar.scan();
+        Scanner in = new Scanner(System.in);
         
+        int numRows;
+        int numCols;
+        int monRow;
+        int monCol;
+        int monDX;
+        int monDY;
+        
+        System.out.print("Please enter the number of rows in the grid: ");
+        numRows = in.nextInt();
+        System.out.print("Please enter the number of columns in the grid: ");
+        numCols = in.nextInt();
+        
+        System.out.print("Please enter the row the monster is in: ");
+        monRow = in.nextInt();
+        System.out.print("Please enter the column the monster is in: ");
+        monCol = in.nextInt();
+        
+        System.out.print("Please enter the monster's velocity in the X direction: ");
+        monDX = in.nextInt();
+        System.out.print("Please enter the monster's velocity in the Y direction: ");
+        monDY = in.nextInt();
+        
+        Radar radar = new Radar(numRows, numCols);
+        radar.setNoiseFraction(0.01);
+        radar.setMonsterLocation(monRow, monCol);
+        radar.setMonsterVelocity(monDX, monDY);
+        
+        radar.scan();
+          
         JFrame frame = new JFrame();
         
         frame.setTitle("Signals in Noise Lab");
@@ -37,16 +63,17 @@ public class RadarViewer
         //  component.
         frame.setVisible(true);
         
-        // perform 100 scans of the radar wiht a slight pause between each
+        // perform 100 scans of the radar with a slight pause between each
         // after each scan, instruct the Java Run-Time to redraw the window
-        for(int i = 0; i < 100; i++)
+        while (radar.scan() == true)
         {
-            Thread.sleep(100); // sleep 100 milliseconds (1/10 second)
+            Thread.sleep(100);
             
             radar.scan();
             
             frame.repaint();
         }
+        
+        System.out.print(radar.returnVelocity());
     }
-
 }

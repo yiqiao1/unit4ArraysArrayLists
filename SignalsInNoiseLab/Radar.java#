@@ -281,42 +281,4 @@ public class Radar
         return statement;
     }
     
-    public static void main(String[] args)
-    {
-        Scanner in = new Scanner(System.in);
-        
-        int numRows;
-        int numCols;
-        int monRow;
-        int monCol;
-        int monDX;
-        int monDY;
-        
-        System.out.print("Please enter the number of rows in the grid: ");
-        numRows = in.nextInt();
-        System.out.print("Please enter the number of columns in the grid: ");
-        numCols = in.nextInt();
-        
-        System.out.print("Please enter the row the monster is in: ");
-        monRow = in.nextInt();
-        System.out.print("Please enter the column the monster is in: ");
-        monCol = in.nextInt();
-        
-        System.out.print("Please enter the monster's velocity in the X direction: ");
-        monDX = in.nextInt();
-        System.out.print("Please enter the monster's velocity in the Y direction: ");
-        monDY = in.nextInt();
-        
-        Radar radar = new Radar(numRows, numCols);
-        radar.setNoiseFraction(0.01);
-        radar.setMonsterLocation(monRow, monCol);
-        radar.setMonsterVelocity(monDX, monDY);
-        
-        while (radar.scan() == true)
-        {
-            radar.scan();
-        }
-        
-        System.out.print(radar.returnVelocity());
-    }
 }

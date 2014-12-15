@@ -92,14 +92,14 @@ public class RadarComponent extends JComponent
         final int X_OFFSET = cols * CELL_WIDTH;
         
         // draw the image for the accumulated radar scans
-        for(int row = 0; row < rows; row++)
+        for(int row = 0; row < 11; row++)
         {
-            for(int col = 0; col < cols; col++)
+            for(int col = 0; col < 11; col++)
             {
                 int x = X_OFFSET + col * CELL_WIDTH ;
                 int y = row * CELL_HEIGHT ;
                 
-                Rectangle2D.Double rect = new Rectangle2D.Double(x, y, CELL_WIDTH , CELL_HEIGHT );
+                Rectangle2D.Double rect = new Rectangle2D.Double(x, y, CELL_WIDTH, CELL_HEIGHT );
                 
                 float pixelValue = (float)(radar.getAccumulatedDetection(row, col)) / radar.getNumScans();
 
