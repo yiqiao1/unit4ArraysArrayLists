@@ -21,8 +21,6 @@ public class RadarTest
      */
     public RadarTest()
     {
-        // initialise instance variables
-        x = 0;
     }
     
     /**
@@ -45,5 +43,61 @@ public class RadarTest
     {
     }
 
-    public void 
+    @Test
+    public void testReturnVelocity()
+    {
+        Radar testRadar = new Radar(75, 34);
+        testRadar.setMonsterLocation(0, 0);
+        testRadar.setMonsterVelocity(1, 1);
+        
+        while (testRadar.scan() == true)
+        {
+            testRadar.scan();
+        }
+        
+        int[] velocity = testRadar.returnVelocity();
+        int dx = velocity[0];
+        int dy = velocity[1];
+        assertEquals(1, dx, 1e-6);
+        assertEquals(1, dy, 1e-6);
+    }
+    
+    @Test
+    public void testReturnVelocity2()
+    {
+        Radar testRadar = new Radar(60, 90);
+        testRadar.setMonsterLocation(1, 2);
+        testRadar.setMonsterVelocity(2, 3);
+        
+        while (testRadar.scan() == true)
+        {
+            testRadar.scan();
+        }
+        
+        int[] velocity = testRadar.returnVelocity();
+        int dx = velocity[0];
+        int dy = velocity[1];
+        assertEquals(2, dx, 1e-6);
+        assertEquals(3, dy, 1e-6);
+    }
+    
+    @Test
+    public void testReturnVelocity3()
+    {
+        Radar testRadar = new Radar(140, 100);
+        testRadar.setMonsterLocation(2, 6);
+        testRadar.setMonsterVelocity(4, 0);
+        
+        while (testRadar.scan() == true)
+        {
+            testRadar.scan();
+        }
+        
+        int[] velocity = testRadar.returnVelocity();
+        int dx = velocity[0];
+        int dy = velocity[1];
+        assertEquals(4, dx, 1e-6);
+        assertEquals(0, dy, 1e-6);
+    }
 }
+

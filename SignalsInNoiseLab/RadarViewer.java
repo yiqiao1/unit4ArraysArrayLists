@@ -41,7 +41,6 @@ public class RadarViewer
         monDY = in.nextInt();
         
         Radar radar = new Radar(numRows, numCols);
-        radar.setNoiseFraction(0.01);
         radar.setMonsterLocation(monRow, monCol);
         radar.setMonsterVelocity(monDX, monDY);
         
@@ -74,6 +73,9 @@ public class RadarViewer
             frame.repaint();
         }
         
-        System.out.print(radar.returnVelocity());
+        int[] velocity = radar.returnVelocity();
+        int dx = velocity[0];
+        int dy = velocity[1];
+        System.out.print("The dx of the monster is " + dx + " and the dy of the monster is " + dy + ".");
     }
 }

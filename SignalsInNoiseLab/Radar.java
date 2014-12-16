@@ -110,7 +110,9 @@ public class Radar
                                 if (currentScan[row2][col2] == true)
                                 {
                                     // then add one to that velocity in the accumulator grid!
-                                    accumulator[row2 - row1 + 5][col2 - col1 + 5] += 1;
+                                    accumulator[col2 - col1 + 5][row2 - row1 + 5] += 1;
+                                    // here rows and cols are switched in order because the amount that the monster moves in the dx
+                                    // direction is actually the change in col #, and vice versa
                                 }
                             }
                         }
@@ -258,7 +260,7 @@ public class Radar
      * 
      * @return  dx and dy velocity of monster
      */
-    public String returnVelocity()
+    public int[] returnVelocity()
     {
         int largestTally = 0;
         int dy = 0;
@@ -277,46 +279,7 @@ public class Radar
             }
         }
         
-        String statement = "The dy of the monster is " + dy + " and the dx of the monster is " + dx + ".";
-        return statement;
-    }
-    
-    public static void main(String[] args)
-    {
-        Scanner in = new Scanner(System.in);
-        
-        int numRows;
-        int numCols;
-        int monRow;
-        int monCol;
-        int monDX;
-        int monDY;
-        
-        System.out.print("Please enter the number of rows in the grid: ");
-        numRows = in.nextInt();
-        System.out.print("Please enter the number of columns in the grid: ");
-        numCols = in.nextInt();
-        
-        System.out.print("Please enter the row the monster is in: ");
-        monRow = in.nextInt();
-        System.out.print("Please enter the column the monster is in: ");
-        monCol = in.nextInt();
-        
-        System.out.print("Please enter the monster's velocity in the X direction: ");
-        monDX = in.nextInt();
-        System.out.print("Please enter the monster's velocity in the Y direction: ");
-        monDY = in.nextInt();
-        
-        Radar radar = new Radar(numRows, numCols);
-        radar.setNoiseFraction(0.01);
-        radar.setMonsterLocation(monRow, monCol);
-        radar.setMonsterVelocity(monDX, monDY);
-        
-        while (radar.scan() == true)
-        {
-            radar.scan();
-        }
-        
-        System.out.print(radar.returnVelocity());
+        int[] velocity = {dx, dy};
+        return velocity;
     }
 }
