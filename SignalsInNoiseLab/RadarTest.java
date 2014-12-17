@@ -85,8 +85,8 @@ public class RadarTest
     public void testReturnVelocity3()
     {
         Radar testRadar = new Radar(140, 100);
-        testRadar.setMonsterLocation(2, 6);
-        testRadar.setMonsterVelocity(4, 0);
+        testRadar.setMonsterLocation(120, 95);
+        testRadar.setMonsterVelocity(-3, 1);
         
         while (testRadar.scan() == true)
         {
@@ -96,8 +96,8 @@ public class RadarTest
         int[] velocity = testRadar.returnVelocity();
         int dx = velocity[0];
         int dy = velocity[1];
-        assertEquals(4, dx, 1e-6);
-        assertEquals(0, dy, 1e-6);
+        assertEquals(-3, dx, 1e-6);
+        assertEquals(1, dy, 1e-6);
     }
 }
 

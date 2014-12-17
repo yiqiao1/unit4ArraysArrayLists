@@ -78,7 +78,8 @@ public class Radar
         }
                 
         // moves monster according to dy and dx
-        if (currentLocationRow < (currentScan.length - monsterDX) && currentLocationCol < (currentScan[0].length - monsterDY))
+        if ((currentLocationRow + monsterDY) > -1 && (currentLocationRow + monsterDY) < currentScan.length && 
+            (currentLocationCol + monsterDX) > -1 && (currentLocationCol + monsterDX) < currentScan[0].length)
         {
             moveMonster();
         }
@@ -110,9 +111,7 @@ public class Radar
                                 if (currentScan[row2][col2] == true)
                                 {
                                     // then add one to that velocity in the accumulator grid!
-                                    accumulator[col2 - col1 + 5][row2 - row1 + 5] += 1;
-                                    // here rows and cols are switched in order because the amount that the monster moves in the dx
-                                    // direction is actually the change in col #, and vice versa
+                                    accumulator[row2 - row1 + 5][col2 - col1 + 5] += 1;
                                 }
                             }
                         }
@@ -249,8 +248,8 @@ public class Radar
      */
     private void moveMonster()
     {
-        currentLocationRow += monsterDX;
-        currentLocationCol += monsterDY;
+        currentLocationRow += monsterDY;
+        currentLocationCol += monsterDX;
         
         currentScan[currentLocationRow][currentLocationCol] = true;
     }    
